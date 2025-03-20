@@ -12,6 +12,7 @@ def query_llm(user_message, context=None):
     """
     Query the LLM for a response. In production, replace with actual LLM API call.
     """
+    print(f"LLM received message: '{user_message}'")
     print(f"LLM received context: {json.dumps(context, indent=2)}")
     
     # Simulate LLM thinking time
@@ -19,33 +20,57 @@ def query_llm(user_message, context=None):
     
     # Simple keyword-based response for demonstration
     message_lower = user_message.lower()
+    print(f"Checking keywords in lowercase message: '{message_lower}'")
     
-    if "recruitment" in message_lower or "hiring" in message_lower or "talent" in message_lower:
-        return {
-            "response": "Let me analyze recruitment trends based on ONS data.",
-            "data_needed": "recruitment",
-            "params": context  # Pass the entire context as params
-        }
-    elif "skill" in message_lower or "qualification" in message_lower or "competenc" in message_lower:
-        return {
-            "response": "I'll check the skills forecast using ONS data.",
-            "data_needed": "skills",
-            "params": context  # Pass the entire context as params
-        }
-    elif "demographic" in message_lower or "age" in message_lower or "population" in message_lower:
+    # Check for all keywords and print what was found (for debugging)
+    keywords = {
+        "demographic": "demographic" in message_lower or "demographics" in message_lower,
+        "age": "age" in message_lower,
+        "population": "population" in message_lower,
+        "recruitment": "recruitment" in message_lower,
+        "hiring": "hiring" in message_lower,
+        "talent": "talent" in message_lower,
+        "skill": "skill" in message_lower,
+        "region": "region" in message_lower,
+        "area": "area" in message_lower,
+        "location": "location" in message_lower,
+        "city": "city" in message_lower
+    }
+    
+    found_keywords = [k for k, v in keywords.items() if v]
+    print(f"Keywords found: {found_keywords}")
+    
+    # Changing the order: check for demographic keywords first
+    if keywords["demographic"] or keywords["age"]:
+        print("Detected as: demographics")
         return {
             "response": "Let me analyze demographic trends based on ONS data.",
             "data_needed": "demographics",
-            "params": context  # Pass the entire context as params
+            "params": context
         }
-    elif "region" in message_lower or "area" in message_lower or "location" in message_lower or "city" in message_lower:
+    elif keywords["region"] or keywords["area"] or keywords["location"] or keywords["city"]:
+        print("Detected as: regions")
         return {
             "response": "I'll examine regional workforce trends based on ONS data.",
             "data_needed": "regions",
-            "params": context  # Pass the entire context as params
+            "params": context
         }
-    # Add more patterns...
+    elif keywords["skill"]:
+        print("Detected as: skills")
+        return {
+            "response": "I'll check the skills forecast using ONS data.",
+            "data_needed": "skills",
+            "params": context
+        }
+    elif keywords["recruitment"] or keywords["hiring"] or keywords["talent"]:
+        print("Detected as: recruitment")
+        return {
+            "response": "Let me analyze recruitment trends based on ONS data.",
+            "data_needed": "recruitment",
+            "params": context
+        }
     else:
+        print("Detected as: general")
         return {
             "response": "I can provide information on business trends using ONS data. Could you ask about recruitment, skills, demographics, or regional trends?",
             "data_needed": "recruitment",  # Default to recruitment data for demonstration

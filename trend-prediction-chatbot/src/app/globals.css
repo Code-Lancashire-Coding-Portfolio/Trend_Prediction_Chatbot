@@ -1,53 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 250, 250, 250;
-  --background-end-rgb: 245, 245, 245;
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 45, 66, 85;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-rgb));
+  font-family: 'Inter', sans-serif;
 }
 
 @layer components {
-  .btn-primary {
-    @apply bg-primary text-white py-2 px-4 rounded-md hover:bg-primary-dark transition-colors;
-  }
-  
-  .chat-bubble {
-    @apply p-3 rounded-lg max-w-[80%] mb-4;
-  }
-  
-  .chat-bubble-user {
-    @apply chat-bubble bg-primary text-white ml-auto;
-  }
-  
-  .chat-bubble-bot {
-    @apply chat-bubble bg-gray-100 text-gray-800;
+  .panel {
+    @apply bg-navy-light backdrop-blur-sm border border-white/10 rounded-xl shadow-card;
   }
   
   .input-field {
-    @apply w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+    @apply bg-navy border border-white/20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-accent/70 transition-all;
   }
   
-  .select-field {
-    @apply p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+  .btn-primary {
+    @apply bg-accent text-white font-medium py-2 px-6 rounded-lg shadow-sm hover:bg-accent/90 hover:shadow-md transition-all transform hover:-translate-y-0.5 active:translate-y-0;
   }
   
-  .context-card {
-    @apply w-full bg-white p-4 border border-gray-200 rounded-lg shadow-sm;
+  .btn-secondary {
+    @apply bg-white/10 backdrop-blur-sm text-white font-medium py-2 px-6 rounded-lg shadow-sm hover:bg-white/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0;
   }
   
-  .suggestion-item {
-    @apply p-3 mb-2 bg-gray-100 hover:bg-gray-200 cursor-pointer rounded-md transition-colors;
+  .message-container {
+    @apply animate-fade-in;
+  }
+  
+  .chat-bubble {
+    @apply p-3 rounded-xl max-w-[80%] shadow-sm;
+  }
+  
+  .chat-bubble-user {
+    @apply chat-bubble bg-accent text-white ml-auto;
+  }
+  
+  .chat-bubble-bot {
+    @apply chat-bubble bg-white text-black border border-white/10;
+  }
+  
+  .promo-bubble {
+    @apply bg-gray-500 border-accent/30 text-white p-4 rounded-xl;
+  }
+  
+  /* Ensure bg-navy-light is consistent */
+  .bg-navy-light {
+    background-color: #3a526a; /* Ensure this matches the intended color */
   }
 }
